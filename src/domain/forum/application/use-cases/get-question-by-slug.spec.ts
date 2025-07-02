@@ -14,6 +14,7 @@ describe('Get Question By Slug', () => {
 
   it('should be able to get a question by slug', async () => {
     const newQuestion = makeQuestion({
+      title: 'Example Question',
       slug: Slug.create('example-question'),
     })
 
