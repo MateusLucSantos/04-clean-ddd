@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { QuestionRepository } from '@/domain/forum/application/repositories/question-repository'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 
 export class InMemoryQuestionsRepository implements QuestionRepository {
   public items: Question[] = []
@@ -23,6 +24,14 @@ export class InMemoryQuestionsRepository implements QuestionRepository {
     }
 
     return question
+  }
+
+  async findManyRecent({ page }: PaginationParams) {
+    const questions = this.items
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * 20, page * 20)
+
+    return questions
   }
 
   async save(question: Question) {
